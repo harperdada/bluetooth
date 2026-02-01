@@ -18,7 +18,7 @@
 // --- Configuration ---
 #define RSSI_THRESHOLD  -75          // Only count devices seen stronger than -75 dBm
 #define DEVICE_TIMEOUT  (5 * 60)     // Device is considered "gone" after 5 minutes (in seconds)
-#define AGGREGATION_INTERVAL  (5 * 60) // Aggregate and save data every 1 hour (in seconds)
+#define AGGREGATION_INTERVAL  (5 * 60) // Aggregate and save data every 5 minutes (in seconds)
 #define HASH_TABLE_SIZE  1024        // Size of the hash table array (must be power of 2)
 #define OUTPUT_FILE     "foot_traffic_log.csv"
 // ---------------------
