@@ -2,6 +2,7 @@
 #include <stdint.h>
 
 // Helper to visualize the bits
+#if 0
 void print_binary(unsigned int n) {
     for (int i = 31; i >= 0; i--) {
         int k = n >> i;
@@ -9,19 +10,33 @@ void print_binary(unsigned int n) {
         else printf("0");
         if (i % 8 == 0) printf(" "); // Space every byte for readability
     }
+    printf("\n");
 }
+#endif
+
+void print_binary(uint64_t num, int bits) {
+    for (int i = bits - 1; i >= 0; i--) {
+        printf("%llu", (num >> i) & 1);
+    // Add a space every 8 bits, but not after the very last bit
+        if (i > 0 && i % 8 == 0) {
+            printf(" ");
+        }
+    }
+    printf("\n");
+}
+
 
 uint32_t get_bits(uint32_t num, int n, int p)
 {
-    uint32_t mask = ((1 << n) - 1) << p;
+    uint32_t mask = ((1U << n) - 1) << p;
     uint32_t res = (num & mask) >> p;
     return res;
 }
 
 uint32_t set_bits(uint32_t num, int n, int p, uint32_t val)
 {
-    uint32_t mask = ((1 << n) - 1) << p;
-    uint32_t res = (num & ~mask) | (val << p);
+    uint32_t mask = ((1U << n) - 1) << p;
+    uint32_t res = (num & ~mask) | ((val & ((1U << n) - 1)) << p);
     return res;
 }
 
@@ -36,9 +51,12 @@ void run_test(const char* test_name, uint32_t actual, uint32_t expected) {
 
 int main() {
     printf("--- Starting Bit Manipulation Validation ---\n\n");
+    uint32_t res;
 
     // --- get_bits Tests ---
-    
+    res = get_bits(0xABCD1234, 4, 16);
+        
+    print_binary(res, 4);
     // 0xABCD1234, n=4, p=16 should extract the 'D' (0xD)
     run_test("get_bits: 4 bits at pos 16", 
               get_bits(0xABCD1234, 4, 16), 0xD);
